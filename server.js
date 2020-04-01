@@ -1,7 +1,9 @@
 const express = require('express');
-
+const connectDB = require('./config/db')
 const app = express();
 
+//Connect to Databse
+connectDB(); 
 
 app.get('/',(req, res) => res.send('API up and Running') )
 
