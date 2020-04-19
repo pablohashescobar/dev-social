@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
 const { check, validationResult } = require("express-validator");
+const normalize = require("normalize-url");
 
 const Profile = require("../../models/Profile");
 const User = require("../../models/User");
@@ -70,7 +71,9 @@ router.post(
     profileFields.user = req.user.id;
 
     if (company) profileFields.company = company;
-    if (website) profileFields.website = website;
+    if (website)
+      profileFields.website =
+        website === "" ? "" : normalize(website, { forceHttps: true });
     if (location) profileFields.location = location;
     if (bio) profileFields.bio = bio;
     if (status) profileFields.status = status;
@@ -147,7 +150,7 @@ router.get("/user/:user_id", async (req, res) => {
     //Catching The Error
   } catch (err) {
     console.error(err.message);
-    if (err.kind == "ObjectId") {
+    if (err.kind === "ObjectId") {
       console.error(err.kind);
 
       return res.status(400).json({ msg: "Profile Not Found" });
@@ -155,5 +158,77 @@ router.get("/user/:user_id", async (req, res) => {
     res.status(500).json("Internal Server Error");
   }
 });
+
+//@route DELETE api/profile
+//@desc  Delete Profile, user & post
+//@acess Private
+
+router.delete("/", auth, async (req, res) => {
+  try {
+    //@todo -remove users post
+    //Remove Profile
+    await Profile.findOneAndRemove({ user: req.user.id });
+    await User.findOneAndRemove({ _id: req.user.id });
+    res.json({ msg: "User Deleted" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json("Internal Server Error");
+  }
+});
+
+//@route PUT api/profile/experience
+//@desc  Delete Profile, user & posts
+//@acess Private
+
+router.put(
+  "/experience",
+  [
+    auth,
+    [
+      check("title", "Title is Required").not().isEmpty(),
+      check("company", "Company is Required").not().isEmpty(),
+      check("from", "From date is Required").not().isEmpty(),
+    ],
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const {
+      title,
+      company,
+      location,
+      from,
+      to,
+      current,
+      description,
+    } = req.body;
+
+    const newExp = {
+      title,
+      company,
+      location,
+      from,
+      to,
+      current,
+      description,
+    };
+
+    try {
+      const profile = await Profile.findOne({ user: req.user.id });
+
+      profile.experience.unshift(newExp);
+
+      await profile.save();
+
+      res.json(profile);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Internal Server Error");
+    }
+  }
+);
 
 module.exports = router;

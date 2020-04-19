@@ -1,4 +1,0 @@
-{
-  "mongoURI": "mongodb+srv://nikhil:killScore243@socialmedia-rneqg.mongodb.net/test?retryWrites=true&w=majority",
-  "jwtSecret": "jsonWebTokenMySecret"
-}
