@@ -13,11 +13,11 @@ const ProfileExperience = ({
             </p>{' '}
             - {!to ? 'Now' : <Moment format='YYYY/MM/DD'>{to}</Moment>}
             <p>
-                <strong>Position:</strong>
+                <strong>Position: </strong>
                 {title}
             </p>
             <p>
-                <strong>Title:</strong>
+                <strong>Title: </strong>
                 {description}
             </p>
         </div>
