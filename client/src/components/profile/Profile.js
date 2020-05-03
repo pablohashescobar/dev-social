@@ -1,24 +1,24 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
-import { getProfileById } from '../../actions/profile';
-import { Link } from 'react-router-dom';
 import ProfileTop from './ProfileTop';
 import ProfileAbout from './ProfileAbout';
 import ProfileExperience from './ProfileExperience';
 import ProfileEducation from './ProfileEducation';
+import ProfileGithub from './ProfileGithub';
+import { getProfileById } from '../../actions/profile';
 
 const Profile = ({
     getProfileById,
-    match,
     profile: { profile, loading },
     auth,
+    match,
 }) => {
     useEffect(() => {
         getProfileById(match.params.id);
-        // eslint-disable-next-line
-    }, [getProfileById]);
+    }, [getProfileById, match.params.id]);
 
     return (
         <Fragment>
@@ -36,7 +36,7 @@ const Profile = ({
                                 Edit Profile
                             </Link>
                         )}
-                    <div class='profile-grid my-1'>
+                    <div className='profile-grid my-1'>
                         <ProfileTop profile={profile} />
                         <ProfileAbout profile={profile} />
                         <div className='profile-exp bg-white p-2'>
@@ -51,9 +51,10 @@ const Profile = ({
                                     ))}
                                 </Fragment>
                             ) : (
-                                <h4>No Experience Credentials</h4>
+                                <h4>No experience credentials</h4>
                             )}
                         </div>
+
                         <div className='profile-edu bg-white p-2'>
                             <h2 className='text-primary'>Education</h2>
                             {profile.education.length > 0 ? (
@@ -66,9 +67,13 @@ const Profile = ({
                                     ))}
                                 </Fragment>
                             ) : (
-                                <h4>No EducationCredentials</h4>
+                                <h4>No education credentials</h4>
                             )}
                         </div>
+
+                        {profile.githubusername && (
+                            <ProfileGithub username={profile.githubusername} />
+                        )}
                     </div>
                 </Fragment>
             )}
@@ -77,9 +82,9 @@ const Profile = ({
 };
 
 Profile.propTypes = {
+    getProfileById: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired,
-    getProfileById: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
