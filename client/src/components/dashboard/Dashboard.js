@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 import { getCurrentUserProfile } from '../../actions/profile';
 import Spinner from '../layout/Spinner';
 import { Link } from 'react-router-dom';
+import Experience from './Experience';
+import Education from './Education';
 import DashBoardActions from './DashBoardActions';
+
 const Dashboard = ({
     getCurrentUserProfile,
     profile: { profile, loading },
@@ -26,6 +29,8 @@ const Dashboard = ({
             {profile !== null ? (
                 <Fragment>
                     <DashBoardActions />
+                    <Experience experience={profile.experience} />
+                    <Education education={profile.education} />
                 </Fragment>
             ) : (
                 <Fragment>
