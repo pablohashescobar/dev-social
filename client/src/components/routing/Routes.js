@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import Register from '../auth/Login';
+import Register from '../auth/Register';
 import Login from '../auth/Login';
 import Alert from '../layout/Alert';
 
 //Private Route
-import PrivateRoute from '../routing/PrivateRoute';
+import PrivateRoute from './PrivateRoute';
 //Profile
 import Dashboard from '../dashboard/Dashboard';
 import CreateProfile from '../profile-form/CreateProfile';

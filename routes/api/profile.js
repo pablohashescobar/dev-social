@@ -89,7 +89,6 @@ router.post(
                 .split(',')
                 .map((skill) => skill.trim());
         }
-        console.log(profileFields.skills);
 
         //Build Social Object
         profileFields.social = {};
@@ -255,7 +254,7 @@ router.delete('/experience/:exp_id', auth, async (req, res) => {
             .indexOf(req.params.exp_id);
 
         profile.experience.splice(removeIndex, 1);
-        console.log('Remove Index', removeIndex);
+
         await profile.save();
 
         res.json(profile);
@@ -337,7 +336,7 @@ router.delete('/education/:exp_id', auth, async (req, res) => {
             .indexOf(req.params.edu_id);
 
         profile.education.splice(removeIndex, 1);
-        console.log('Remove Index', removeIndex);
+
         await profile.save();
 
         res.json(profile);
