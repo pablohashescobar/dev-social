@@ -1,13 +1,13 @@
-import React, { useState, Fragment } from "react";
-import { Link, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import { login } from "../../actions/auth";
-import PropTypes from "prop-types";
+import React, { useState, Fragment } from 'react';
+import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { login } from '../../actions/auth';
+import PropTypes from 'prop-types';
 
 const Login = ({ login, isAuthenticated }) => {
     const [formData, setFormData] = useState({
-        email: "",
-        password: "",
+        email: '',
+        password: '',
     });
 
     const { email, password } = formData;
@@ -57,7 +57,7 @@ const Login = ({ login, isAuthenticated }) => {
                 <input
                     type='submit'
                     className='btn btn-primary'
-                    value='Register'
+                    value='Login'
                 />
             </form>
             <p className='my-1'>
