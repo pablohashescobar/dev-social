@@ -250,7 +250,9 @@ export const deleteAccount = () => async (dispatch) => {
                 type: CLEAR_PROFILE,
             });
             dispatch({ type: ACCOUNT_DELETED });
-            dispatch(setAlert('Your Account Has been Permanently Deleted'));
+            dispatch(
+                setAlert('Your Account Has been Permanently Deleted', 'danger')
+            );
         } catch (error) {
             dispatch({
                 type: PROFILE_ERROR,
